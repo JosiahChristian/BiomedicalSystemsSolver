@@ -31,3 +31,11 @@ jobs:
         python hemodynamic_solver.py
     - name: Run Neurological Impulse Simulation
       run: python nervous_impulse_solver.py
+      
+    - name: Run Transient Fluid Simulation
+      run: |
+        python hemodynamic_solver.py
+
+    - name: Run Neurological Impulse Simulation
+      run: |
+        python nervous_impulse_solver.py
