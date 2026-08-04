@@ -29,3 +29,5 @@ jobs:
       run: |
         # Executes your hemodynamic math arrays to verify execution stability
         python hemodynamic_solver.py
+    - name: Run Neurological Impulse Simulation
+      run: python nervous_impulse_solver.py
