@@ -1,0 +1,31 @@
+name: Biomedical Fluid Solver CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  validate-fluid-math:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python Runtime
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Scientific Math Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy
+
+    - name: Run Transient Fluid Simulation
+      run: |
+        # Executes your hemodynamic math arrays to verify execution stability
+        python hemodynamic_solver.py
