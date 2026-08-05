@@ -6,7 +6,7 @@ A computational biomedical simulation framework implementing numerical finite-di
 
 
 
-Targeted for biophysics research alignment with the \*\*Old Dominion University (ODU) PhD in Modeling and Simulation Engineering\*\* pipeline.
+\*\*Targeted for biophysics research\*\*
 
 
 
