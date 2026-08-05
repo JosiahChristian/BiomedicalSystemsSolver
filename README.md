@@ -1,64 +1,42 @@
-\# CardioFluidSolver: Finite-Difference Hemodynamic Engine
+# BiomedicalSystemsSolver: Neuro-Computational & Hemodynamic Engines
 
+A multi-domain computational biophysics simulation suite implementing discrete numerical finite-difference equations. This project dual-models transient biological signaling and physical mechanics properties across mammalian grids.
 
+Targeted for neural and biophysics research alignment with the **Old Dominion University (ODU) PhD in Modeling and Simulation Engineering** pipeline.
 
-A computational biomedical simulation framework implementing numerical finite-difference schemes. This project models fluid velocity distribution profiles and viscous drag forces across complex mammalian arterial grids.
+## 🧠 Electrophysiology Framework (Nervous System)
+The neural propagation model solves the discrete one-dimensional spatial cable differential equation. The system tracks signal conduction velocity decays and active ion leaks along an automated axon channel path:
 
-
-
-\*\*Targeted for biophysics research\*\*
-
-
-
-\## 🫀 Mathematical Framework
-
-
-
-The simulation engine models fluid dynamics via one-dimensional simplifications of the Navier-Stokes velocity derivations. The system tracks momentum transport and friction drag losses across discrete arterial spatial nodes:
-
-
-
-$$\\rho \\left( \\frac{\\partial v}{\\partial t} \\right) = \\mu \\left( \\frac{\\partial^2 v}{\\partial x^2} \\right)$$
-
-
+$$C_m \frac{\partial V}{\partial t} = \frac{1}{R_a} \frac{\partial^2 V}{\partial x^2} - I_{leak}$$
 
 Where:
+* $C_m$ = Membrane capacitance ($1.0 \ \mu\text{F/cm}^2$)
+* $R_a$ = Axial resistance matrix parameters
+* $I_{leak}$ = Active voltage leakage tracking index relative to a $-70\text{mV}$ resting baseline potential
 
-\* $\\rho$ = Blood fluid density ($1.06 \\text{ g/cm}^3$)
+*   **Engine Script:** `nervous_impulse_solver.py`
+*   **Mathematical Scheme:** Explicit Euler transient voltage integrator loop tracking signal propagation across 30 space coordinates.
 
-\* $\\mu$ = Dynamic blood viscosity ($0.035 \\text{ Poise}$)
+## 🫀 Hemodynamic Framework (Cardiovascular System)
+The blood flow model maps transient fluid velocities via one-dimensional simplifications of the Navier-Stokes derivations, calculating viscous diffusion friction losses against vessel walls:
 
-\* $\\frac{\\partial^2 v}{\\partial x^2}$ = Second-order spatial diffusion velocity matrix gradients
+$$\rho \left( \frac{\partial v}{\partial t} \right) = \mu \left( \frac{\partial^2 v}{\partial x^2} \right)$$
 
+*   **Engine Script:** `hemodynamic_solver.py`
+*   **Mathematical Scheme:** Second-order spatial finite-difference diffusion approximation matrix tracking momentum profiles across 20 vascular nodes.
 
+## 🚀 Local Deployment Lifecycle
 
-\## 🚀 Local Deployment Lifecycle
+### Prerequisites
+* Python 3.10+
+* NumPy
+* Matplotlib
 
-
-
-\### Prerequisites
-
-\* Python 3.10+
-
-\* NumPy
-
-
-
-\### Execution
-
-Run the transient explicit fluid state stepper calculation loop inside your terminal workspace:
-
+### Execution
+Run the data science visualization module locally to calculate both engines and export your side-by-side subplot panel matrix graphic:
 ```bash
-
-python hemodynamic\_solver.py
-
+python generate_biomed_plots.py
 ```
 
-
-
-\## 🛠️ Portfolio Mapping
-
-This asset completes a multi-domain research engineering profile matrix, establishing core computational competencies in numerical partial differential equation (PDE) solving, discrete mathematical modeling, and safety-critical bio-physical simulations.
-
-
-
+## 📈 Simulation Analytics Visualization
+![Biomedical Matrix Profile](biomedical_simulation_matrix.png)
