@@ -1,7 +1,7 @@
 import numpy as np
 
 print("===============================================================")
-print("     ODU CPS NEURO-COMPUTATIONAL ELECTRICAL IMPULSE ENGINE     ")
+print("     CPS NEURO-COMPUTATIONAL ELECTRICAL IMPULSE ENGINE     ")
 print("===============================================================")
 print("Initializing Synaptic Action Potential Propagation Loop...\n")
 
