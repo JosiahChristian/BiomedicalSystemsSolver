@@ -2,7 +2,7 @@
 
 A multi-domain computational biophysics simulation suite implementing discrete numerical finite-difference equations. This project dual-models transient biological signaling and physical mechanics properties across mammalian grids.
 
-Targeted for neural and biophysics research alignment with the **Old Dominion University (ODU) PhD in Modeling and Simulation Engineering** pipeline.
+Targeted for neural and biophysics research in **Modeling and Simulation Engineering**.
 
 ## 🧠 Electrophysiology Framework (Nervous System)
 The neural propagation model solves the discrete one-dimensional spatial cable differential equation. The system tracks signal conduction velocity decays and active ion leaks along an automated axon channel path:
