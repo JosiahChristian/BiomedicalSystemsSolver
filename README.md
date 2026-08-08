@@ -24,6 +24,7 @@ Where:
 *   $R_a$ : **Intracellular Axial Resistance** — Models the internal fluid resistance against passive longitudinal ion current flow running through the axoplasm ($\Omega\cdot\text{cm}$).
 *   $a$ : **Axon Core Radius** — Sets the physical cross-sectional scale of the neural cylinder, directly scaling longitudinal electrical conduction velocities.
 * $I_{leak}$ = Active voltage leakage tracking index relative to a $-70\text{mV}$ resting baseline potential
+* $I_{\text{ion}}$ : **Total Active Ionic Currents** — The sum of dynamic transmembrane ionic flux channels (including sodium $Na^+$ and potassium $K^+$ arrays) governed by transient voltage-gated opening probabilities.
 
 *   **Engine Script:** `nervous_impulse_solver.py`
 *   **Mathematical Scheme:** Explicit Euler transient voltage integrator loop tracking signal propagation across 30 space coordinates.
