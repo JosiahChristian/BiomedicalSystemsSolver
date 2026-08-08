@@ -9,6 +9,20 @@ The neural propagation model solves the discrete one-dimensional spatial cable d
 
 $$C_m \frac{\partial V}{\partial t} = \frac{1}{R_a} \frac{\partial^2 V}{\partial x^2} - I_{leak}$$
 
+### 📍 Computational Domain (Where the System Models)
+The framework maps transient electrical potential transformations across a discrete 100-node localized array grid modeling an unmyelinated **Neural Axon Segment**:
+* **Physical Scale Discretization:** Tracks localized finite-difference grid nodes separated by fine spatial steps ($\Delta x = 0.01 \ \text{cm}$) over an absolute $1 \ \text{cm}$ total experimental axon pathway.
+* **Transient Boundary Conditions:** Enforces sealed-end (no-flux) boundary rules at the distal terminus ($\frac{\partial V}{\partial x} = 0$), dictating that intracellular current cannot escape the physical boundaries of the simulated fiber tip.
+* **Stimulus Gateway Node:** The proximal boundary boundary node ($x = 0$) serves as the structural injection gateway, accepting an external transient stimulus current ($I_{\text{ext}}$) to trigger active depolarization cascades.
+
+#### 🧮 Variable and Symbolic Definitions
+The underlying computational logic models the following biophysical cable variables at every independent spatial matrix cell:
+*   $V(x, t)$ : **Transmembrane Potential** — Represents the localized voltage differential across the axon membrane at space coordinate $x$ and time $t$, tracked in millivolts ($\text{mV}$).
+*   $C_m$ : **Membrane Capacitance** — Holds the physical capacity of the cellular lipid bilayer to store electrical charge, normalized per unit area ($\approx 1.0 \ \mu\text{F/cm}^2$).
+*   $R_a$ : **Intracellular Axial Resistance** — Models the internal fluid resistance against passive longitudinal ion current flow running through the axoplasm ($\Omega\cdot\text{cm}$).
+*   $a$ : **Axon Core Radius** — Sets the physical cross-sectional scale of the neural cylinder, directly scaling longitudinal electrical conduction velocities.
+*   $I_{\text{ion}}$ : **Total Active Ionic Currents** — The sum of dynamic transmembrane ionic flux channels (including sodium $Na^+$ and potassium $K^+$ arrays) governed by transient voltage-gated opening probabilities.
+
 Where:
 * $C_m$ = Membrane capacitance ($1.0 \ \mu\text{F/cm}^2$)
 * $R_a$ = Axial resistance matrix parameters
