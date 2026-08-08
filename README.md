@@ -7,8 +7,6 @@ Targeted for neural and biophysics research in **Modeling and Simulation Enginee
 ## 🧠 Electrophysiology Framework (Nervous System)
 The neural propagation model solves the discrete one-dimensional spatial cable differential equation. The system tracks signal conduction velocity decays and active ion leaks along an automated axon channel path:
 
-$$C_m \frac{\partial V}{\partial t} = \frac{1}{R_a} \frac{\partial^2 V}{\partial x^2} - I_{leak}$$
-
 ### 📍 Computational Domain (Where the System Models)
 The framework maps transient electrical potential transformations across a discrete 100-node localized array grid modeling an unmyelinated **Neural Axon Segment**:
 * **Physical Scale Discretization:** Tracks localized finite-difference grid nodes separated by fine spatial steps ($\Delta x = 0.01 \ \text{cm}$) over an absolute $1 \ \text{cm}$ total experimental axon pathway.
@@ -17,15 +15,14 @@ The framework maps transient electrical potential transformations across a discr
 
 #### 🧮 Variable and Symbolic Definitions
 The underlying computational logic models the following biophysical cable variables at every independent spatial matrix cell:
+
+$$C_m \frac{\partial V}{\partial t} = \frac{1}{R_a} \frac{\partial^2 V}{\partial x^2} - I_{leak}$$
+
+Where:
 *   $V(x, t)$ : **Transmembrane Potential** — Represents the localized voltage differential across the axon membrane at space coordinate $x$ and time $t$, tracked in millivolts ($\text{mV}$).
 *   $C_m$ : **Membrane Capacitance** — Holds the physical capacity of the cellular lipid bilayer to store electrical charge, normalized per unit area ($\approx 1.0 \ \mu\text{F/cm}^2$).
 *   $R_a$ : **Intracellular Axial Resistance** — Models the internal fluid resistance against passive longitudinal ion current flow running through the axoplasm ($\Omega\cdot\text{cm}$).
 *   $a$ : **Axon Core Radius** — Sets the physical cross-sectional scale of the neural cylinder, directly scaling longitudinal electrical conduction velocities.
-*   $I_{\text{ion}}$ : **Total Active Ionic Currents** — The sum of dynamic transmembrane ionic flux channels (including sodium $Na^+$ and potassium $K^+$ arrays) governed by transient voltage-gated opening probabilities.
-
-Where:
-* $C_m$ = Membrane capacitance ($1.0 \ \mu\text{F/cm}^2$)
-* $R_a$ = Axial resistance matrix parameters
 * $I_{leak}$ = Active voltage leakage tracking index relative to a $-70\text{mV}$ resting baseline potential
 
 *   **Engine Script:** `nervous_impulse_solver.py`
@@ -45,7 +42,6 @@ Where:
 *   $\rho$ : **Blood Mass Density** — Constrained as a constant fluid mass parameter ($\approx 1.06 \ \text{g/cm}^3$) modeling standard human blood plasma weight properties.
 *   $\mu$ : **Dynamic Viscosity Coefficient** — Accounts for internal fluid friction shear stresses and viscous resistance forces against the common carotid arterial walls.
 *   $R$ : **Instantaneous Vessel Radius** — Tracks the dynamic structural boundaries of the arterial lumen as it dilates and contracts during systolic heart pump bursts.
-
 
 *   **Engine Script:** `hemodynamic_solver.py`
 *   **Mathematical Scheme:** Second-order spatial finite-difference diffusion approximation matrix tracking momentum profiles across 20 vascular nodes.
