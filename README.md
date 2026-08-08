@@ -22,7 +22,9 @@ The blood flow model maps transient fluid velocities via one-dimensional simplif
 
 #### 🧮 Variable and Symbolic Definitions
 The continuous partial differential equations governing this fluid grid map the following biophysical properties at every localized node:
+
 $$\rho \left( \frac{\partial v}{\partial t} \right) = \mu \left( \frac{\partial^2 v}{\partial x^2} \right)$$
+
 Where:
 *   $v(x, t)$ : **Transient Fluid Velocity** — Represents the cross-sectional averaged blood flow velocity at a specific spatial coordinate ($x$) over time ($t$).
 *   $P$ : **Intravascular Blood Pressure** — The driving hydrostatic force gradient acting along the length steps of the vessel track.
