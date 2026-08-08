@@ -27,6 +27,16 @@ The framework maps transient fluid mass-transport boundaries across a discrete 2
 * **Spatial Scale Discretization:** Tracks localized finite-difference grid nodes separated by structural length steps ($\Delta x = 0.5 \ \text{cm}$) over an absolute $10 \ \text{cm}$ computational vessel track length.
 * **Boundary Nodes:** Enforces non-slip viscous conditions at the interior vessel walls and continuous transient boundary pressure influx nodes at the proximal heart ejection boundary gateway.
 
+#### 🧮 Variable and Symbolic Definitions
+The continuous partial differential equations governing this fluid grid map the following biophysical properties at every localized node:
+
+*   $v(x, t)$ : **Transient Fluid Velocity** — Represents the cross-sectional averaged blood flow velocity at a specific spatial coordinate ($x$) over time ($t$).
+*   $P$ : **Intravascular Blood Pressure** — The driving hydrostatic force gradient acting along the length steps of the vessel track.
+*   $\rho$ : **Blood Mass Density** — Constrained as a constant fluid mass parameter ($\approx 1.06 \ \text{g/cm}^3$) modeling standard human blood plasma weight properties.
+*   $\mu$ : **Dynamic Viscosity Coefficient** — Accounts for internal fluid friction shear stresses and viscous resistance forces against the common carotid arterial walls.
+*   $R$ : **Instantaneous Vessel Radius** — Tracks the dynamic structural boundaries of the arterial lumen as it dilates and contracts during systolic heart pump bursts.
+
+
 *   **Engine Script:** `hemodynamic_solver.py`
 *   **Mathematical Scheme:** Second-order spatial finite-difference diffusion approximation matrix tracking momentum profiles across 20 vascular nodes.
 
