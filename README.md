@@ -30,6 +30,7 @@ The framework maps transient fluid mass-transport boundaries across a discrete 2
 #### 🧮 Variable and Symbolic Definitions
 The continuous partial differential equations governing this fluid grid map the following biophysical properties at every localized node:
 
+Where:
 *   $v(x, t)$ : **Transient Fluid Velocity** — Represents the cross-sectional averaged blood flow velocity at a specific spatial coordinate ($x$) over time ($t$).
 *   $P$ : **Intravascular Blood Pressure** — The driving hydrostatic force gradient acting along the length steps of the vessel track.
 *   $\rho$ : **Blood Mass Density** — Constrained as a constant fluid mass parameter ($\approx 1.06 \ \text{g/cm}^3$) modeling standard human blood plasma weight properties.
