@@ -31,6 +31,12 @@ Where:
 ## 🫀 Hemodynamic Framework (Cardiovascular System)
 The blood flow model maps transient fluid velocities via one-dimensional simplifications of the Navier-Stokes derivations, calculating viscous diffusion friction losses against vessel walls:
 
+### 📍 Computational Domain (Where the System Models)
+The framework maps transient fluid mass-transport boundaries across a discrete 20-node linearized structural array grid modeling the human **Arterial Vasculature Track**:
+* **Primary Vessel Boundary:** Simulates spatial velocity profiles along the continuous segment path of the human **Common Carotid Artery**.
+* **Spatial Scale Discretization:** Tracks localized finite-difference grid nodes separated by structural length steps ($\Delta x = 0.5 \ \text{cm}$) over an absolute $10 \ \text{cm}$ computational vessel track length.
+* **Boundary Nodes:** Enforces non-slip viscous conditions at the interior vessel walls and continuous transient boundary pressure influx nodes at the proximal heart ejection boundary gateway.
+
 #### 🧮 Variable and Symbolic Definitions
 The continuous partial differential equations governing this fluid grid map the following biophysical properties at every localized node:
 
@@ -45,13 +51,6 @@ Where:
 
 *   **Engine Script:** `hemodynamic_solver.py`
 *   **Mathematical Scheme:** Second-order spatial finite-difference diffusion approximation matrix tracking momentum profiles across 20 vascular nodes.
-### 📍 Computational Domain (Where the System Models)
-The framework maps transient fluid mass-transport boundaries across a discrete 20-node linearized structural array grid modeling the human **Arterial Vasculature Track**:
-* **Primary Vessel Boundary:** Simulates spatial velocity profiles along the continuous segment path of the human **Common Carotid Artery**.
-* **Spatial Scale Discretization:** Tracks localized finite-difference grid nodes separated by structural length steps ($\Delta x = 0.5 \ \text{cm}$) over an absolute $10 \ \text{cm}$ computational vessel track length.
-* **Boundary Nodes:** Enforces non-slip viscous conditions at the interior vessel walls and continuous transient boundary pressure influx nodes at the proximal heart ejection boundary gateway.
-
-
 
 ## 🚀 Local Deployment Lifecycle
 
