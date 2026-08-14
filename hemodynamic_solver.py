@@ -1,7 +1,7 @@
 import numpy as np
 
 print("===============================================================")
-print("     ODU COMPUTATIONAL BIOMEDICAL FLUID SOLVER CHASSIS        ")
+print("     COMPUTATIONAL BIOMEDICAL FLUID SOLVER CHASSIS        ")
 print("===============================================================")
 print("Initializing Hemodynamic Finite-Difference Solver Loop...\n")
 
