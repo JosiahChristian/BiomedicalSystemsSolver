@@ -37,6 +37,13 @@ class SolverExplorerTests(unittest.TestCase):
         self.assertEqual(len(payload["flow"]["velocity_cm_per_s"]), 201)
         self.assertIn("simulate_active_cable", payload["provenance"]["axon_solver"])
 
+    def test_compact_telemetry_contains_a_live_proximal_flow_trace(self):
+        flow = build_telemetry_payload()["flow"]
+        velocities = flow["velocity_cm_per_s"]
+        self.assertEqual(flow["position_cm"], 0.1)
+        self.assertGreater(min(velocities), 0.0)
+        self.assertGreater(max(velocities) - min(velocities), 5.0)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -28,6 +28,7 @@ def build_payload() -> dict[str, object]:
     flow = simulate_hemodynamics(
         HemodynamicConfig(duration_s=1.0),
         inlet_velocity=lambda time_s: 20.0 + 10.0 * np.sin(2.0 * np.pi * time_s),
+        initial_velocity_cm_per_s=20.0,
     )
     axon_stride = 20
     flow_stride = 5
@@ -63,7 +64,10 @@ def build_telemetry_payload() -> dict[str, object]:
     axon = payload["axon"]
     flow = payload["flow"]
     axon_midpoint = len(axon["x_cm"]) // 2
-    flow_midpoint = len(flow["x_cm"]) // 2
+    # The momentum-diffusion baseline propagates slowly over a one-second run.
+    # Export the first interior node so the visual client receives the solved,
+    # time-varying proximal response rather than a still-unreached midpoint.
+    flow_probe = 1
     return {
         "schema": "biomedical-telemetry-playback/v1",
         "source": "BiomedicalSystemsSolver v2.1.0",
@@ -74,9 +78,9 @@ def build_telemetry_payload() -> dict[str, object]:
             "voltage_mv": [row[axon_midpoint] for row in axon["voltage_mv"]],
         },
         "flow": {
-            "position_cm": flow["x_cm"][flow_midpoint],
+            "position_cm": flow["x_cm"][flow_probe],
             "time_s": flow["time_s"],
-            "velocity_cm_per_s": [row[flow_midpoint] for row in flow["velocity_cm_per_s"]],
+            "velocity_cm_per_s": [row[flow_probe] for row in flow["velocity_cm_per_s"]],
             "model": flow["model"],
         },
     }
