@@ -1,0 +1,9 @@
+{
+  "python": ["3.10", "3.11", "3.12"],
+  "numpy": ">=1.24,<3",
+  "reference_development_environment": {
+    "python": "3.12.13",
+    "numpy": "2.3.5"
+  },
+  "notes": "GitHub Actions verifies every supported Python version. Floating-point hashes are reproducibility fingerprints for the reference environment; cross-platform comparisons use declared numeric tolerances."
+}

@@ -1,0 +1,34 @@
+{
+  "activation_times_sha256_float64_le": "b807bcb9edc434a17c3519cfb1b6ab8c79e9bda0c17143e010a0c7b5465cf6a7",
+  "configuration": {
+    "axial_resistivity_ohm_cm": 35.4,
+    "axon_radius_cm": 0.0238,
+    "cable_diffusivity_cm2_per_ms": 0.3361581920903955,
+    "diffusion_number": 0.13446327683615816,
+    "dt_ms": 0.001,
+    "duration_ms": 8.0,
+    "dx_cm": 0.05,
+    "gating_q10": 3.0,
+    "gating_rate_scale": 3.8202161018185845,
+    "length_cm": 5.0,
+    "num_nodes": 101,
+    "stimulus_amplitude_ua_per_cm2": 50.0,
+    "stimulus_duration_ms": 1.0,
+    "stimulus_length_cm": 0.2,
+    "stimulus_start_ms": 0.5,
+    "temperature_c": 18.5
+  },
+  "experiment": "spatial_hodgkin_huxley_active_axon",
+  "metrics": {
+    "activated_nodes": 101,
+    "calculated_velocity_relative_error_percent": 0.3076798372729405,
+    "conduction_velocity_m_per_s_1_to_4_cm": 18.742156190592688,
+    "distal_activation_ms": 3.8828713050956165,
+    "first_activation_ms": 1.4307548096172984,
+    "minimum_voltage_mv": -75.5295854668836,
+    "peak_voltage_mv": 36.585972259518314,
+    "published_calculated_velocity_m_per_s": 18.8,
+    "published_experimental_velocity_m_per_s": 21.2
+  },
+  "voltage_field_sha256_float64_le": "0451843a5c72d2e7fc9268a5be96d1fff38fd251564789297d8afeed03ea54bc"
+}

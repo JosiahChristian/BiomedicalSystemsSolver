@@ -1,0 +1,2 @@
+# Optional release-validation dependency; not required by ordinary users.
+libopencor @ git+https://github.com/opencor/libopencor.git@423a252b3cfcbbbfb8b3bf2eaacd6e1c24b025f2

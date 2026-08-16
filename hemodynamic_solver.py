@@ -1,47 +1,22 @@
-import numpy as np
+"""Command-line entry point for the verified hemodynamic baseline."""
 
-print("===============================================================")
-print("     COMPUTATIONAL BIOMEDICAL FLUID SOLVER CHASSIS        ")
-print("===============================================================")
-print("Initializing Hemodynamic Finite-Difference Solver Loop...\n")
+from biomedical_solver.hemodynamics import HemodynamicConfig, simulate_hemodynamics
 
-# Simulation domain: modeling a 10cm segment of an artery split into 20 discrete nodes
-artery_length_cm = 10.0
-num_nodes = 20
-dx = artery_length_cm / (num_nodes - 1)
 
-# Blood physical fluid properties
-blood_viscosity = 0.035  # Poise (g/cm*s)
-blood_density = 1.06     # g/cm^3
+def main() -> None:
+    config = HemodynamicConfig()
+    result = simulate_hemodynamics(config)
+    midpoint = config.num_nodes // 2
 
-# Initialize simulation velocity array arrays across all nodes (cm/s)
-velocities = np.zeros(num_nodes)
-# Set boundary condition: systolic blood pumping injection speed at the arterial inlet (node 0)
-velocities[0] = 30.0  # 30 cm/s typical peak systolic inflow velocity
+    print("HEMODYNAMIC MOMENTUM-DIFFUSION BASELINE")
+    print(f"nodes={config.num_nodes} dx={config.dx_cm:.4f} cm")
+    print(f"duration={config.duration_s:.3f} s dt={config.dt_s:.4f} s")
+    print(f"diffusion_number={result.diffusion_number:.6f}")
+    print(f"inlet={result.velocity_cm_per_s[-1, 0]:.6f} cm/s")
+    print(f"midpoint={result.velocity_cm_per_s[-1, midpoint]:.6f} cm/s")
+    print(f"outlet={result.velocity_cm_per_s[-1, -1]:.6f} cm/s")
+    print("scope=reduced viscous-diffusion baseline; not full arterial flow")
 
-time_steps = 500
-dt = 0.001  # 1ms time slices to preserve mathematical stability bounds
 
-print(f"Simulating fluid progression over {time_steps} cycles across a {artery_length_cm}cm vascular grid.")
-print("\nCycle  |  Inlet (cm/s)  |  Midpoint Vessel (cm/s)  |  Outlet (cm/s)")
-print("-------------------------------------------------------------------")
-
-# Discrete approximation solver loop tracking fluid momentum translation
-for step in range(time_steps):
-    # Create a backup matrix copy to preserve states during calculations
-    v_old = velocities.copy()
-    
-    for i in range(1, num_nodes - 1):
-        # Viscous diffusion matrix calculations (Simulating friction losses against vessel walls)
-        viscous_drag = blood_viscosity * (v_old[i+1] - 2*v_old[i] + v_old[i-1]) / (dx**2)
-        
-        # Update fluid velocities register array using explicit Euler stepping equations
-        velocities[i] += (viscous_drag / blood_density) * dt
-
-    if step % 100 == 0:
-        print(f"{step:03d}    |     {velocities[0]:.2f}      |          {velocities[num_nodes//2]:.4f}          |     {velocities[-1]:.4f}")
-
-print("-------------------------------------------------------------------")
-print("HEMODYNAMIC FLUID SOLVER LIFE-CYCLE LIFECYCLE COMPLETE.")
-print(f"Final Mid-Vessel Steady State Flow Speed Output: {velocities[num_nodes//2]:.4f} cm/s")
-print("Biomedical Simulation Model Logs Registered Successfully.")
+if __name__ == "__main__":
+    main()
