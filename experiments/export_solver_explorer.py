@@ -1,0 +1,77 @@
+"""Export a zero-install browser playback from verified solver trajectories."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import numpy as np
+
+from biomedical_solver.active_cable import ActiveCableConfig, simulate_active_cable
+from biomedical_solver.hemodynamics import HemodynamicConfig, simulate_hemodynamics
+
+
+ROOT = Path(__file__).resolve().parents[1]
+TEMPLATE = ROOT / "web" / "solver-explorer-template.html"
+DEFAULT_OUTPUT = ROOT / "docs" / "index.html"
+
+
+def _rounded_rows(values: np.ndarray, stride: int, decimals: int) -> list[list[float]]:
+    return np.round(values[::stride], decimals).tolist()
+
+
+def build_payload() -> dict[str, object]:
+    """Run the reference solvers and return a compact, deterministic payload."""
+    axon = simulate_active_cable(ActiveCableConfig())
+    flow = simulate_hemodynamics(
+        HemodynamicConfig(duration_s=1.0),
+        inlet_velocity=lambda time_s: 20.0 + 10.0 * np.sin(2.0 * np.pi * time_s),
+    )
+    axon_stride = 20
+    flow_stride = 5
+    return {
+        "schema": "biomedical-solver-explorer/v1",
+        "provenance": {
+            "axon_solver": "biomedical_solver.active_cable.simulate_active_cable",
+            "flow_solver": "biomedical_solver.hemodynamics.simulate_hemodynamics",
+            "warning": (
+                "The cardiovascular baseline has no pressure, compliance, or wall "
+                "mechanics; vessel contraction is intentionally not rendered."
+            ),
+        },
+        "axon": {
+            "x_cm": np.round(axon.x_cm, 4).tolist(),
+            "time_ms": np.round(axon.time_ms[::axon_stride], 4).tolist(),
+            "voltage_mv": _rounded_rows(axon.voltage_mv, axon_stride, 3),
+            "conduction_velocity_m_per_s": round(axon.conduction_velocity_m_per_s(), 6),
+            "peak_voltage_mv": round(float(np.max(axon.voltage_mv)), 6),
+        },
+        "flow": {
+            "x_cm": np.round(flow.x_cm, 4).tolist(),
+            "time_s": np.round(flow.time_s[::flow_stride], 4).tolist(),
+            "velocity_cm_per_s": _rounded_rows(flow.velocity_cm_per_s, flow_stride, 3),
+            "model": "1D momentum-diffusion baseline",
+        },
+    }
+
+
+def export(output: Path) -> None:
+    template = TEMPLATE.read_text(encoding="utf-8")
+    payload = json.dumps(build_payload(), separators=(",", ":"), allow_nan=False)
+    if "__SOLVER_DATA__" not in template:
+        raise ValueError("template is missing __SOLVER_DATA__ placeholder")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(template.replace("__SOLVER_DATA__", payload), encoding="utf-8")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    args = parser.parse_args()
+    export(args.output.resolve())
+    print(f"exported solver-driven explorer to {args.output.resolve()}")
+
+
+if __name__ == "__main__":
+    main()

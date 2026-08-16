@@ -3,7 +3,16 @@
 All notable changes to BiomedicalSystemsSolver are recorded here. Releases use
 semantic versioning and must identify the validated scientific scope.
 
-## Unreleased — candidate v2.0.0
+## Unreleased
+
+### Added
+
+- Standalone solver-driven browser playback for the active-axon voltage field
+  and hemodynamic velocity field.
+- Deterministic exporter and tests that bind the visual data to the Python
+  solvers and disclose the cardiovascular model boundary.
+
+## v2.0.0 — 2026-08-15
 
 ### Added
 
