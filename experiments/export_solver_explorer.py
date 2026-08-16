@@ -15,6 +15,7 @@ from biomedical_solver.hemodynamics import HemodynamicConfig, simulate_hemodynam
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / "web" / "solver-explorer-template.html"
 DEFAULT_OUTPUT = ROOT / "docs" / "index.html"
+DEFAULT_TELEMETRY_OUTPUT = ROOT / "docs" / "telemetry-playback.json"
 
 
 def _rounded_rows(values: np.ndarray, stride: int, decimals: int) -> list[list[float]]:
@@ -56,21 +57,53 @@ def build_payload() -> dict[str, object]:
     }
 
 
-def export(output: Path) -> None:
+def build_telemetry_payload() -> dict[str, object]:
+    """Return compact midpoint traces for external visualization clients."""
+    payload = build_payload()
+    axon = payload["axon"]
+    flow = payload["flow"]
+    axon_midpoint = len(axon["x_cm"]) // 2
+    flow_midpoint = len(flow["x_cm"]) // 2
+    return {
+        "schema": "biomedical-telemetry-playback/v1",
+        "source": "BiomedicalSystemsSolver v2.1.0",
+        "provenance": payload["provenance"],
+        "axon": {
+            "position_cm": axon["x_cm"][axon_midpoint],
+            "time_ms": axon["time_ms"],
+            "voltage_mv": [row[axon_midpoint] for row in axon["voltage_mv"]],
+        },
+        "flow": {
+            "position_cm": flow["x_cm"][flow_midpoint],
+            "time_s": flow["time_s"],
+            "velocity_cm_per_s": [row[flow_midpoint] for row in flow["velocity_cm_per_s"]],
+            "model": flow["model"],
+        },
+    }
+
+
+def export(output: Path, telemetry_output: Path = DEFAULT_TELEMETRY_OUTPUT) -> None:
     template = TEMPLATE.read_text(encoding="utf-8")
     payload = json.dumps(build_payload(), separators=(",", ":"), allow_nan=False)
     if "__SOLVER_DATA__" not in template:
         raise ValueError("template is missing __SOLVER_DATA__ placeholder")
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(template.replace("__SOLVER_DATA__", payload), encoding="utf-8")
+    telemetry_output.parent.mkdir(parents=True, exist_ok=True)
+    telemetry_output.write_text(
+        json.dumps(build_telemetry_payload(), separators=(",", ":"), allow_nan=False),
+        encoding="utf-8",
+    )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--telemetry-output", type=Path, default=DEFAULT_TELEMETRY_OUTPUT)
     args = parser.parse_args()
-    export(args.output.resolve())
+    export(args.output.resolve(), args.telemetry_output.resolve())
     print(f"exported solver-driven explorer to {args.output.resolve()}")
+    print(f"exported compact telemetry to {args.telemetry_output.resolve()}")
 
 
 if __name__ == "__main__":

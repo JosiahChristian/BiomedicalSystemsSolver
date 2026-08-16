@@ -55,7 +55,9 @@ python -m experiments.export_solver_explorer
 ```
 
 The final command generates `docs/index.html`, a standalone, zero-install
-playback suitable for GitHub Pages. Its illumination is indexed directly from
+playback suitable for GitHub Pages, plus `docs/telemetry-playback.json`, a
+compact provenance-bearing midpoint trace for external visualization clients.
+Its illumination is indexed directly from
 the active-axon voltage field and hemodynamic velocity field. It intentionally
 does not render vessel contraction because the current cardiovascular solver
 does not calculate pressure, compliance, or wall displacement.

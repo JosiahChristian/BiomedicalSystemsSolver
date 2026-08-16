@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from experiments.export_solver_explorer import build_payload, export
+from experiments.export_solver_explorer import build_payload, build_telemetry_payload, export
 
 
 class SolverExplorerTests(unittest.TestCase):
@@ -21,12 +21,21 @@ class SolverExplorerTests(unittest.TestCase):
     def test_export_is_standalone_and_discloses_model_boundary(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "index.html"
-            export(output)
+            telemetry = Path(directory) / "telemetry.json"
+            export(output, telemetry)
             html = output.read_text(encoding="utf-8")
+            self.assertTrue(telemetry.exists())
         self.assertNotIn("__SOLVER_DATA__", html)
         self.assertIn("simulate_active_cable", html)
         self.assertIn("No vessel contraction is shown", html)
         self.assertNotIn("fetch(", html)
+
+    def test_compact_telemetry_payload_preserves_provenance(self):
+        payload = build_telemetry_payload()
+        self.assertEqual(payload["schema"], "biomedical-telemetry-playback/v1")
+        self.assertEqual(len(payload["axon"]["voltage_mv"]), 401)
+        self.assertEqual(len(payload["flow"]["velocity_cm_per_s"]), 201)
+        self.assertIn("simulate_active_cable", payload["provenance"]["axon_solver"])
 
 
 if __name__ == "__main__":
