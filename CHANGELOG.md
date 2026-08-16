@@ -5,6 +5,8 @@ semantic versioning and must identify the validated scientific scope.
 
 ## Unreleased
 
+## v2.1.0 - 2026-08-15
+
 ### Added
 
 - Standalone solver-driven browser playback for the active-axon voltage field
