@@ -1,0 +1,37 @@
+{
+  "cellml": {
+    "revision": "c4bf1ccd5013023efcf79d8ba740fda6f427514b",
+    "sha256": "ea5a2c20bb4d8866bdc4a88f6228c33f9c54b66add036f0bcbd7021ffa9ef5ba"
+  },
+  "comparison": {
+    "V": {
+      "max_absolute_difference": 2.8315128020039992e-12,
+      "root_mean_square_difference": 2.0389676347210036e-13
+    },
+    "h": {
+      "max_absolute_difference": 4.3298697960381105e-15,
+      "root_mean_square_difference": 7.949387006053954e-16
+    },
+    "m": {
+      "max_absolute_difference": 1.9761969838327786e-14,
+      "root_mean_square_difference": 1.8271296580069357e-15
+    },
+    "n": {
+      "max_absolute_difference": 4.829470157119431e-15,
+      "root_mean_square_difference": 6.266157068326009e-16
+    }
+  },
+  "engine": {
+    "name": "libOpenCOR",
+    "source_commit": "423a252b3cfcbbbfb8b3bf2eaacd6e1c24b025f2",
+    "version": "1.20260803.0"
+  },
+  "peak": {
+    "independent_time_ms": 12.05,
+    "independent_voltage_mv": 39.51984941408942,
+    "ours_time_ms": 12.05,
+    "ours_voltage_mv": 39.51984941408943
+  },
+  "samples": 5001,
+  "time_step_ms": 0.01
+}

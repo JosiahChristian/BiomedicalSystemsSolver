@@ -1,0 +1,54 @@
+{
+  "model": "Hodgkin-Huxley squid giant axon membrane",
+  "primary_publication": {
+    "authors": "A. L. Hodgkin and A. F. Huxley",
+    "year": 1952,
+    "title": "A quantitative description of membrane current and its application to conduction and excitation in nerve",
+    "journal": "The Journal of Physiology",
+    "volume": 117,
+    "pages": "500-544",
+    "doi": "10.1113/jphysiol.1952.sp004764",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1392413/"
+  },
+  "executable_reference": {
+    "name": "Physiome Model Repository CellML original-variant model",
+    "revision": "c4bf1ccd5013023efcf79d8ba740fda6f427514b",
+    "url": "https://models.physiomeproject.org/workspace/hodgkin_huxley_1952/file/c4bf1ccd5013023efcf79d8ba740fda6f427514b/hodgkin_huxley_1952_variant01.cellml"
+  },
+  "modern_absolute_voltage_parameters": {
+    "capacitance_uf_per_cm2": 1.0,
+    "sodium_conductance_ms_per_cm2": 120.0,
+    "potassium_conductance_ms_per_cm2": 36.0,
+    "leak_conductance_ms_per_cm2": 0.3,
+    "sodium_reversal_mv": 50.0,
+    "potassium_reversal_mv": -77.0,
+    "leak_reversal_mv": -54.387,
+    "initial_voltage_mv": -65.0,
+    "initial_m": 0.05,
+    "initial_h": 0.6,
+    "initial_n": 0.325
+  },
+  "reference_protocol": {
+    "duration_ms": 50.0,
+    "stimulus_amplitude_ua_per_cm2": 20.0,
+    "stimulus_start_ms": 10.0,
+    "stimulus_duration_ms": 0.5,
+    "stimulus_end_inclusive": true
+  },
+  "propagation_reference": {
+    "temperature_c": 18.5,
+    "gating_q10": 3.0,
+    "axon_radius_cm": 0.0238,
+    "axial_resistivity_ohm_cm": 35.4,
+    "published_calculated_velocity_m_per_s": 18.8,
+    "published_experimental_velocity_m_per_s": 21.2
+  },
+  "sign_and_offset_conversion": {
+    "relationship": "V_modern_mV = -V_original_mV - 65",
+    "current_relationship": "I_modern = -I_original",
+    "original_initial_voltage_mv": 0.0,
+    "original_sodium_reversal_mv": -115.0,
+    "original_potassium_reversal_mv": 12.0,
+    "original_leak_reversal_mv": -10.613
+  }
+}

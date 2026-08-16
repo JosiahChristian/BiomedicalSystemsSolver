@@ -1,70 +1,118 @@
-# BiomedicalSystemsSolver: Neuro-Computational & Hemodynamic Engines
+# BiomedicalSystemsSolver
 
-A multi-domain computational biophysics simulation suite implementing discrete numerical finite-difference equations. This project dual-models transient biological signaling and physical mechanics properties across mammalian grids.
+A computational-biophysics research project developing verified cardiovascular
+and neural solvers that can ultimately drive interactive digital-twin
+visualizations.
 
-Targeted for neural and biophysics research in **Modeling and Simulation Engineering**.
+## Current verified scope
 
-## 🧠 Electrophysiology Framework (Nervous System)
-The neural propagation model solves the discrete one-dimensional spatial cable differential equation. The system tracks signal conduction velocity decays and active ion leaks along an automated axon channel path:
+The repository currently contains four deliberately scoped models:
 
-### 📍 Computational Domain (Where the System Models)
-The framework maps transient electrical potential transformations across a discrete 100-node localized array grid modeling an unmyelinated **Neural Axon Segment**:
-* **Physical Scale Discretization:** Tracks localized finite-difference grid nodes separated by fine spatial steps ($\Delta x = 0.01 \ \text{cm}$) over an absolute $1 \ \text{cm}$ total experimental axon pathway.
-* **Transient Boundary Conditions:** Enforces sealed-end (no-flux) boundary rules at the distal terminus ($\frac{\partial V}{\partial x} = 0$), dictating that intracellular current cannot escape the physical boundaries of the simulated fiber tip.
-* **Stimulus Gateway Node:** The proximal boundary boundary node ($x = 0$) serves as the structural injection gateway, accepting an external transient stimulus current ($I_{\text{ext}}$) to trigger active depolarization cascades.
+- **Hemodynamic momentum-diffusion baseline:** solves
+  $\partial v/\partial t = \nu\,\partial^2v/\partial x^2$ on a one-dimensional
+  axial domain with a prescribed inlet and selectable outlet boundary.
+- **Passive neural cable baseline:** solves passive electrotonic voltage spread
+  with leakage, a transient proximal stimulus, and sealed-end boundaries.
+- **Active membrane reference:** solves the classical Hodgkin-Huxley sodium,
+  potassium, leak, and gating equations with fourth-order Runge-Kutta integration.
+- **Spatial active-axon model:** couples Hodgkin-Huxley membrane dynamics across
+  an unmyelinated cable and measures activation time and conduction velocity.
 
-#### 🧮 Variable and Symbolic Definitions
-The underlying computational logic models the following biophysical cable variables at every independent spatial matrix cell:
+These baselines establish dimensional consistency, boundary handling, explicit
+time-step stability checks, and regression tests. They are **not yet** a complete
+pulsatile arterial-flow model or an active Hodgkin-Huxley action-potential model.
 
-$$C_m \frac{\partial V}{\partial t} = \frac{1}{R_a} \frac{\partial^2 V}{\partial x^2} - I_{leak}$$
+## Reproducible execution
 
-Where:
-*   $V(x, t)$ : **Transmembrane Potential** — Represents the localized voltage differential across the axon membrane at space coordinate $x$ and time $t$, tracked in millivolts ($\text{mV}$).
-*   $C_m$ : **Membrane Capacitance** — Holds the physical capacity of the cellular lipid bilayer to store electrical charge, normalized per unit area ($\approx 1.0 \ \mu\text{F/cm}^2$).
-*   $R_a$ : **Intracellular Axial Resistance** — Models the internal fluid resistance against passive longitudinal ion current flow running through the axoplasm ($\Omega\cdot\text{cm}$).
-*   $a$ : **Axon Core Radius** — Sets the physical cross-sectional scale of the neural cylinder, directly scaling longitudinal electrical conduction velocities.
-* $I_{leak}$ = Active voltage leakage tracking index relative to a $-70\text{mV}$ resting baseline potential
-* $I_{\text{ion}}$ : **Total Active Ionic Currents** — The sum of dynamic transmembrane ionic flux channels (including sodium $Na^+$ and potassium $K^+$ arrays) governed by transient voltage-gated opening probabilities.
+Requirements:
 
-*   **Engine Script:** `nervous_impulse_solver.py`
-*   **Mathematical Scheme:** Explicit Euler transient voltage integrator loop tracking signal propagation across 30 space coordinates.
+- Python 3.10+
+- NumPy 1.24 through 2.x
 
-## 🫀 Hemodynamic Framework (Cardiovascular System)
-The blood flow model maps transient fluid velocities via one-dimensional simplifications of the Navier-Stokes derivations, calculating viscous diffusion friction losses against vessel walls:
+Install the single runtime dependency:
 
-### 📍 Computational Domain (Where the System Models)
-The framework maps transient fluid mass-transport boundaries across a discrete 20-node linearized structural array grid modeling the human **Arterial Vasculature Track**:
-* **Primary Vessel Boundary:** Simulates spatial velocity profiles along the continuous segment path of the human **Common Carotid Artery**.
-* **Spatial Scale Discretization:** Tracks localized finite-difference grid nodes separated by structural length steps ($\Delta x = 0.5 \ \text{cm}$) over an absolute $10 \ \text{cm}$ computational vessel track length.
-* **Boundary Nodes:** Enforces non-slip viscous conditions at the interior vessel walls and continuous transient boundary pressure influx nodes at the proximal heart ejection boundary gateway.
-
-#### 🧮 Variable and Symbolic Definitions
-The continuous partial differential equations governing this fluid grid map the following biophysical properties at every localized node:
-
-$$\rho \left( \frac{\partial v}{\partial t} \right) = \mu \left( \frac{\partial^2 v}{\partial x^2} \right)$$
-
-Where:
-*   $v(x, t)$ : **Transient Fluid Velocity** — Represents the cross-sectional averaged blood flow velocity at a specific spatial coordinate ($x$) over time ($t$).
-*   $P$ : **Intravascular Blood Pressure** — The driving hydrostatic force gradient acting along the length steps of the vessel track.
-*   $\rho$ : **Blood Mass Density** — Constrained as a constant fluid mass parameter ($\approx 1.06 \ \text{g/cm}^3$) modeling standard human blood plasma weight properties.
-*   $\mu$ : **Dynamic Viscosity Coefficient** — Accounts for internal fluid friction shear stresses and viscous resistance forces against the common carotid arterial walls.
-*   $R$ : **Instantaneous Vessel Radius** — Tracks the dynamic structural boundaries of the arterial lumen as it dilates and contracts during systolic heart pump bursts.
-
-*   **Engine Script:** `hemodynamic_solver.py`
-*   **Mathematical Scheme:** Second-order spatial finite-difference diffusion approximation matrix tracking momentum profiles across 20 vascular nodes.
-
-## 🚀 Local Deployment Lifecycle
-
-### Prerequisites
-* Python 3.10+
-* NumPy
-* Matplotlib
-
-### Execution
-Run the data science visualization module locally to calculate both engines and export your side-by-side subplot panel matrix graphic:
 ```bash
-python generate_biomed_plots.py
+python -m pip install -r requirements.txt
 ```
 
-## 📈 Simulation Analytics Visualization
+Run the verification suite:
+
+```bash
+python -m unittest discover -v
+```
+
+Run the command-line demonstrations:
+
+```bash
+python hemodynamic_solver.py
+python nervous_impulse_solver.py
+python hodgkin_huxley_solver.py
+python -m experiments.hh_1952_reference
+python active_axon_solver.py
+python -m experiments.active_axon_reference
+```
+
+## Numerical safeguards
+
+Both explicit finite-difference solvers calculate their diffusion number and
+reject configurations that violate the stability requirement
+$D\Delta t/\Delta x^2 \leq 1/2$.
+
+The tests currently verify:
+
+- rejection of unstable configurations;
+- preservation of uniform hemodynamic fields;
+- enforcement of the configured outlet boundary;
+- bounded cardiovascular velocities;
+- preservation of neural resting potential without stimulus;
+- transient depolarization and spatial propagation;
+- finite and bounded neural voltage solutions.
+- finite gating rates at removable singularities;
+- stable unstimulated Hodgkin-Huxley resting behavior;
+- bounded gating probabilities and stimulus-evoked action potentials;
+- zero channel current at each corresponding reversal potential;
+- deterministic reproduction of the active-membrane trajectory.
+- convergence of action-potential peak voltage and timing under time-step refinement.
+- full-length active-axon propagation and ordered activation times;
+- finite emergent conduction velocity and time-step refinement agreement;
+- spatial quiescence without stimulation and bounded cable gating variables.
+
+GitHub Actions runs these numerical assertions on every push and pull request.
+The CI matrix covers Python 3.10, 3.11, and 3.12 using the dependency bounds in
+`requirements.txt`.
+
+Independent CellML-engine comparison is an optional release-maintainer workflow,
+not a normal user requirement. Its pinned dependency is isolated in
+`requirements-validation.txt`, and the tracked comparison result allows ordinary
+users to inspect the evidence without compiling libOpenCOR.
+
+Release history is recorded in [CHANGELOG.md](CHANGELOG.md). Scientific release
+requirements are defined in [docs/RELEASE_POLICY.md](docs/RELEASE_POLICY.md).
+
+The Hodgkin-Huxley parameter and sign-convention provenance is pinned in
+[`references/hodgkin_huxley_1952.json`](references/hodgkin_huxley_1952.json).
+The reference experiment reports trace hashes and morphology metrics so its exact
+output can be reproduced and compared across implementations.
+The evidence and remaining limitation are recorded in
+[`docs/validation/hodgkin_huxley_1952.md`](docs/validation/hodgkin_huxley_1952.md).
+Spatial propagation evidence and its unresolved velocity discrepancy are recorded
+in [`docs/validation/active_axon.md`](docs/validation/active_axon.md).
+
+## Planned validated progression
+
+1. Establish convergence studies for the baseline discretizations.
+2. Validate the active Hodgkin-Huxley membrane model against published reference traces.
+3. Independently reproduce the CellML trajectory and propagated waveform.
+4. Add a closed-loop lumped cardiovascular circulation model.
+5. Progress to compliant one-dimensional arterial flow with conservation tests.
+6. Generate reduced-order, provenance-tracked fields for browser visualization.
+
+Every visualization will be driven by solver state or by a documented reduced
+model validated against the reference solver.
+
+## Legacy image
+
+The original demonstration matrix is retained as a historical project artifact;
+it should not be interpreted as validation of the upgraded solvers.
+
 ![Biomedical Matrix Profile](biomedical_simulation_matrix.png)

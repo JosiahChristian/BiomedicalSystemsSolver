@@ -1,0 +1,32 @@
+{
+  "bounds": {
+    "h": [
+      0.07684995615919524,
+      0.6074221149423339
+    ],
+    "m": [
+      0.013524888305379465,
+      0.9938804422958935
+    ],
+    "n": [
+      0.31021940950117205,
+      0.7691885605277665
+    ]
+  },
+  "executable_reference_revision": "c4bf1ccd5013023efcf79d8ba740fda6f427514b",
+  "experiment": "hh_1952_physiome_protocol",
+  "integration": {
+    "dt_ms": 0.01,
+    "method": "RK4"
+  },
+  "metrics": {
+    "amplitude_from_initial_mv": 104.51984941408944,
+    "final_voltage_mv": -64.98463607798209,
+    "half_amplitude_width_ms": 1.450000000000001,
+    "minimum_voltage_mv": -76.17701522399351,
+    "peak_time_ms": 12.05,
+    "peak_voltage_mv": 39.51984941408943
+  },
+  "reference_sha256": "274e8aee456040a32e8c778195b3866b291644cdf9cea66afaffcc1e73afde1c",
+  "voltage_trace_sha256_float64_le": "5ec5ea7b1a0f6c9666a8f05732216ce1892d44b0572c038b89d0ccd6375129f5"
+}
