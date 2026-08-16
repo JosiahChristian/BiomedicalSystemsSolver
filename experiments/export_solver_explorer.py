@@ -10,6 +10,7 @@ import numpy as np
 
 from biomedical_solver.active_cable import ActiveCableConfig, simulate_active_cable
 from biomedical_solver.hemodynamics import HemodynamicConfig, simulate_hemodynamics
+from biomedical_solver.windkessel import simulate_windkessel
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,8 +39,8 @@ def build_payload() -> dict[str, object]:
             "axon_solver": "biomedical_solver.active_cable.simulate_active_cable",
             "flow_solver": "biomedical_solver.hemodynamics.simulate_hemodynamics",
             "warning": (
-                "The cardiovascular baseline has no pressure, compliance, or wall "
-                "mechanics; vessel contraction is intentionally not rendered."
+                "Velocity and pressure are separate reduced-order baselines and are "
+                "not bidirectionally coupled; vessel contraction is not rendered."
             ),
         },
         "axon": {
@@ -68,6 +69,7 @@ def build_telemetry_payload() -> dict[str, object]:
     # Export the first interior node so the visual client receives the solved,
     # time-varying proximal response rather than a still-unreached midpoint.
     flow_probe = 1
+    pressure = simulate_windkessel()
     return {
         "schema": "biomedical-telemetry-playback/v1",
         "source": "BiomedicalSystemsSolver v2.1.0",
@@ -82,6 +84,13 @@ def build_telemetry_payload() -> dict[str, object]:
             "time_s": flow["time_s"],
             "velocity_cm_per_s": [row[flow_probe] for row in flow["velocity_cm_per_s"]],
             "model": flow["model"],
+        },
+        "pressure": {
+            "time_s": np.round(pressure.time_s, 4).tolist(),
+            "pressure_mmhg": np.round(pressure.pressure_mmhg, 3).tolist(),
+            "systolic_mmhg": round(pressure.systolic_mmhg, 3),
+            "diastolic_mmhg": round(pressure.diastolic_mmhg, 3),
+            "model": "two-element Windkessel reduced-order baseline",
         },
     }
 

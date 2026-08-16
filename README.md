@@ -6,11 +6,14 @@ visualizations.
 
 ## Current verified scope
 
-The repository currently contains four deliberately scoped models:
+The repository currently contains five deliberately scoped models:
 
 - **Hemodynamic momentum-diffusion baseline:** solves
   $\partial v/\partial t = \nu\,\partial^2v/\partial x^2$ on a one-dimensional
   axial domain with a prescribed inlet and selectable outlet boundary.
+- **Two-element Windkessel pressure baseline:** solves
+  $C\,dP/dt = Q_{in}-(P-P_v)/R$ for a pulsatile, lumped arterial compartment
+  and exports its converged final cardiac cycle.
 - **Passive neural cable baseline:** solves passive electrotonic voltage spread
   with leakage, a transient proximal stimulus, and sealed-end boundaries.
 - **Active membrane reference:** solves the classical Hodgkin-Huxley sodium,
@@ -57,10 +60,10 @@ python -m experiments.export_solver_explorer
 The final command generates `docs/index.html`, a standalone, zero-install
 playback suitable for GitHub Pages, plus `docs/telemetry-playback.json`, a
 compact provenance-bearing midpoint trace for external visualization clients.
-Its illumination is indexed directly from
-the active-axon voltage field and hemodynamic velocity field. It intentionally
-does not render vessel contraction because the current cardiovascular solver
-does not calculate pressure, compliance, or wall displacement.
+Its signals are indexed directly from the active-axon voltage field, proximal
+hemodynamic velocity field, and reduced-order Windkessel pressure cycle. The
+velocity and pressure baselines are not yet bidirectionally coupled, and vessel
+contraction is intentionally not rendered.
 
 ## Numerical safeguards
 
@@ -74,6 +77,8 @@ The tests currently verify:
 - preservation of uniform hemodynamic fields;
 - enforcement of the configured outlet boundary;
 - bounded cardiovascular velocities;
+- normalized pulsatile inflow, stable Windkessel integration, analytic
+  constant-flow equilibrium, and bounded pulse pressure;
 - preservation of neural resting potential without stimulus;
 - transient depolarization and spatial propagation;
 - finite and bounded neural voltage solutions.
@@ -113,10 +118,11 @@ in [`docs/validation/active_axon.md`](docs/validation/active_axon.md).
 1. Establish convergence studies for the baseline discretizations.
 2. Validate the active Hodgkin-Huxley membrane model against published reference traces.
 3. Independently reproduce the CellML trajectory and propagated waveform.
-4. Add a closed-loop lumped cardiovascular circulation model.
+4. Extend the present two-element pressure baseline into a closed-loop lumped
+   cardiovascular circulation model.
 5. Progress to compliant one-dimensional arterial flow with conservation tests.
-6. Extend the browser playback to pressure and wall deformation only after the
-   compliant-flow model passes conservation and benchmark tests.
+6. Extend browser playback to wall deformation only after the compliant-flow
+   model passes conservation and benchmark tests.
 
 Every visualization will be driven by solver state or by a documented reduced
 model validated against the reference solver.

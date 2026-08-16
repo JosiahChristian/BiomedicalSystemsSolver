@@ -44,6 +44,12 @@ class SolverExplorerTests(unittest.TestCase):
         self.assertGreater(min(velocities), 0.0)
         self.assertGreater(max(velocities) - min(velocities), 5.0)
 
+    def test_compact_telemetry_contains_reduced_order_pressure(self):
+        pressure = build_telemetry_payload()["pressure"]
+        self.assertGreater(pressure["systolic_mmhg"], pressure["diastolic_mmhg"])
+        self.assertGreater(len(pressure["pressure_mmhg"]), 100)
+        self.assertIn("Windkessel", pressure["model"])
+
 
 if __name__ == "__main__":
     unittest.main()

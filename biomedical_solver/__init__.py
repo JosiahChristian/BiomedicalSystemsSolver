@@ -8,6 +8,7 @@ from .hodgkin_huxley import (
     simulate_hodgkin_huxley,
 )
 from .neuro import PassiveCableConfig, PassiveCableResult, simulate_passive_cable
+from .windkessel import WindkesselConfig, WindkesselResult, simulate_windkessel
 
 __all__ = [
     "ActiveCableConfig",
@@ -18,8 +19,11 @@ __all__ = [
     "HodgkinHuxleyResult",
     "PassiveCableConfig",
     "PassiveCableResult",
+    "WindkesselConfig",
+    "WindkesselResult",
     "simulate_hemodynamics",
     "simulate_active_cable",
     "simulate_hodgkin_huxley",
     "simulate_passive_cable",
+    "simulate_windkessel",
 ]
