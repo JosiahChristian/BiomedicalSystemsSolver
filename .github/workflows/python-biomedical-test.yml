@@ -39,3 +39,4 @@ jobs:
         python active_axon_solver.py
         python -m experiments.hh_1952_reference
         python -m experiments.active_axon_reference
+        python -m experiments.export_solver_explorer --output /tmp/solver-explorer.html

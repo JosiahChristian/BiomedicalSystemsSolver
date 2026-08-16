@@ -18,9 +18,10 @@ The repository currently contains four deliberately scoped models:
 - **Spatial active-axon model:** couples Hodgkin-Huxley membrane dynamics across
   an unmyelinated cable and measures activation time and conduction velocity.
 
-These baselines establish dimensional consistency, boundary handling, explicit
-time-step stability checks, and regression tests. They are **not yet** a complete
-pulsatile arterial-flow model or an active Hodgkin-Huxley action-potential model.
+These models establish dimensional consistency, boundary handling, explicit
+time-step stability checks, and regression tests. The active membrane and axon
+models implement Hodgkin-Huxley dynamics; the cardiovascular model is **not yet**
+a complete pulsatile arterial-flow or wall-mechanics model.
 
 ## Reproducible execution
 
@@ -50,7 +51,14 @@ python hodgkin_huxley_solver.py
 python -m experiments.hh_1952_reference
 python active_axon_solver.py
 python -m experiments.active_axon_reference
+python -m experiments.export_solver_explorer
 ```
+
+The final command generates `docs/index.html`, a standalone, zero-install
+playback suitable for GitHub Pages. Its illumination is indexed directly from
+the active-axon voltage field and hemodynamic velocity field. It intentionally
+does not render vessel contraction because the current cardiovascular solver
+does not calculate pressure, compliance, or wall displacement.
 
 ## Numerical safeguards
 
@@ -105,7 +113,8 @@ in [`docs/validation/active_axon.md`](docs/validation/active_axon.md).
 3. Independently reproduce the CellML trajectory and propagated waveform.
 4. Add a closed-loop lumped cardiovascular circulation model.
 5. Progress to compliant one-dimensional arterial flow with conservation tests.
-6. Generate reduced-order, provenance-tracked fields for browser visualization.
+6. Extend the browser playback to pressure and wall deformation only after the
+   compliant-flow model passes conservation and benchmark tests.
 
 Every visualization will be driven by solver state or by a documented reduced
 model validated against the reference solver.
