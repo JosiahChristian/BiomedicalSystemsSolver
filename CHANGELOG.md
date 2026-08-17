@@ -5,6 +5,22 @@ semantic versioning and must identify the validated scientific scope.
 
 ## Unreleased
 
+### Added
+
+- Two-element Windkessel reduced-order arterial pressure solver with normalized
+  pulsatile inflow and a converged final-cycle export.
+- Analytic-equilibrium, stability, waveform-bound, and telemetry regression
+  tests for the new pressure channel.
+- Machine-readable JSON Schema for the cross-repository telemetry contract.
+
+### Changed
+
+- Cardiovascular telemetry now exports a live proximal velocity probe instead
+  of the unreached, zero-valued midpoint from the one-second diffusion run.
+- The playback artifact now includes explicit systolic, diastolic, and
+  beat-resolved pressure values while disclosing that pressure and velocity are
+  separate reduced-order baselines.
+
 ## v2.1.0 - 2026-08-15
 
 ### Added
