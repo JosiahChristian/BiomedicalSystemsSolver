@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://josiahchristian.github.io/BiomedicalSystemsSolver/telemetry-playback.schema.json",
+  "title": "Biomedical telemetry playback",
+  "type": "object",
+  "required": ["schema", "source", "provenance", "axon", "flow", "pressure"],
+  "properties": {
+    "schema": { "const": "biomedical-telemetry-playback/v1" },
+    "source": { "type": "string", "minLength": 1 },
+    "provenance": {
+      "type": "object",
+      "required": ["axon_solver", "flow_solver", "warning"]
+    },
+    "axon": {
+      "type": "object",
+      "required": ["position_cm", "time_ms", "voltage_mv"],
+      "properties": {
+        "position_cm": { "type": "number" },
+        "time_ms": { "$ref": "#/$defs/numericSeries" },
+        "voltage_mv": { "$ref": "#/$defs/numericSeries" }
+      }
+    },
+    "flow": {
+      "type": "object",
+      "required": ["position_cm", "time_s", "velocity_cm_per_s", "model"],
+      "properties": {
+        "position_cm": { "type": "number" },
+        "time_s": { "$ref": "#/$defs/numericSeries" },
+        "velocity_cm_per_s": { "$ref": "#/$defs/numericSeries" },
+        "model": { "type": "string" }
+      }
+    },
+    "pressure": {
+      "type": "object",
+      "required": ["time_s", "pressure_mmhg", "systolic_mmhg", "diastolic_mmhg", "model"],
+      "properties": {
+        "time_s": { "$ref": "#/$defs/numericSeries" },
+        "pressure_mmhg": { "$ref": "#/$defs/numericSeries" },
+        "systolic_mmhg": { "type": "number" },
+        "diastolic_mmhg": { "type": "number" },
+        "model": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "numericSeries": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "type": "number" }
+    }
+  }
+}

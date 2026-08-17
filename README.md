@@ -60,6 +60,8 @@ python -m experiments.export_solver_explorer
 The final command generates `docs/index.html`, a standalone, zero-install
 playback suitable for GitHub Pages, plus `docs/telemetry-playback.json`, a
 compact provenance-bearing midpoint trace for external visualization clients.
+Its machine-readable contract is published in
+[`docs/telemetry-playback.schema.json`](docs/telemetry-playback.schema.json).
 Its signals are indexed directly from the active-axon voltage field, proximal
 hemodynamic velocity field, and reduced-order Windkessel pressure cycle. The
 velocity and pressure baselines are not yet bidirectionally coupled, and vessel

@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+import json
 from pathlib import Path
 
 from experiments.export_solver_explorer import build_payload, build_telemetry_payload, export
@@ -49,6 +50,12 @@ class SolverExplorerTests(unittest.TestCase):
         self.assertGreater(pressure["systolic_mmhg"], pressure["diastolic_mmhg"])
         self.assertGreater(len(pressure["pressure_mmhg"]), 100)
         self.assertIn("Windkessel", pressure["model"])
+
+    def test_published_schema_tracks_required_playback_channels(self):
+        schema_path = Path(__file__).resolve().parents[1] / "docs" / "telemetry-playback.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        self.assertEqual(schema["properties"]["schema"]["const"], "biomedical-telemetry-playback/v1")
+        self.assertEqual(set(schema["required"]), {"schema", "source", "provenance", "axon", "flow", "pressure"})
 
 
 if __name__ == "__main__":
